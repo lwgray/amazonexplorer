@@ -101,13 +101,14 @@ def verify_reimbursement(damaged, reimbursed):
 
 
 def write_report(verified):
-    with open('c:\\users\\lwgra\\desktop\\final_report.txt', 'w') as report:
+    with open(os.path.join('data', 'final_report.txt'), 'w') as report:
         writer = csv.writer(report)
         writer.writerow(['AMAZON ORDER ID', 'ASIN', "SELLER SKU", 'DATE'])
         for items in verified:
             order_id = items[0]
             for item in items[1]:
-                writer.writerow([order_id, item['asin'], item['sku'], item['date']])
+                writer.writerow([order_id, item['asin'], item['sku'],
+                                 item['date']])
 
 
 def import_removal_report(filename):
@@ -198,7 +199,14 @@ def find_non_reimbursed_damaged_goods():
         'data', 'reimbursements.txt'))
     damaged_goods = find_damaged_goods(returned_goods)
     verified = verify_reimbursement(damaged_goods, reimbursed_goods)
-    write_report(verified)
+    # write_report(verified)
+    print_verified(verified)
+    return
+
+
+def print_verified(verified):
+    for x in verified:
+        print x
     return
 
 '''
@@ -230,5 +238,8 @@ def main():
             check_days()
 '''
 if __name__ == '__main__':
-    sys.exit(find_non_reimbursed_damaged_goods())
-
+    try:
+        if sys.argv[1] == 'damaged':
+            sys.exit(find_non_reimbursed_damaged_goods())
+    except IndexError:
+        sys.exit(find_non_reimbursed_damaged_goods_before_deadline())
