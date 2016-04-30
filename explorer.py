@@ -4,6 +4,7 @@
 import csv
 import sys
 from datetime import datetime
+import os
 
 
 def get_return_report(input_file):
@@ -177,9 +178,12 @@ def find_non_reimbursed_damaged_goods_before_deadline():
 
     :return: 
     """
-    returned_goods = get_return_report('c:\\users\\lwgra\\desktop\\returns.txt')
-    refunded_goods = get_refund_data('c:\\users\\lwgra\\desktop\\refunds.txt')
-    reimbursed_goods = get_reimbursement_report('c:\\users\\lwgra\\desktop\\reimbursements.txt')
+    returned_goods = get_return_report(os.path.join('data',
+                                                    'returns.txt'))
+    refunded_goods = get_refund_data(os.path.join('data',
+                                                  'refunds.txt'))
+    reimbursed_goods = get_reimbursement_report(os.path.join(
+        'data', 'reimbursements.txt'))
     find_problems(returned_goods, refunded_goods, reimbursed_goods)
     return
 
@@ -188,8 +192,10 @@ def find_non_reimbursed_damaged_goods():
     ''' Find Damaged Goods that were not reimbursed
     :rtype: object
     '''
-    returned_goods = get_return_report('c:\\users\\lwgra\\desktop\\returns.txt')
-    reimbursed_goods = get_reimbursement_report('c:\\users\\lwgra\\desktop\\reimbursements.txt')
+    returned_goods = get_return_report(os.path.join('data',
+                                                    'returns.txt'))
+    reimbursed_goods = get_reimbursement_report(os.path.join(
+        'data', 'reimbursements.txt'))
     damaged_goods = find_damaged_goods(returned_goods)
     verified = verify_reimbursement(damaged_goods, reimbursed_goods)
     write_report(verified)
