@@ -1,0 +1,159 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+{{ analytics }}
+{% block styles %}
+{{ super() }}
+    <link rel="stylesheet" 
+        href="{{url_for('.static', filename='mystyle.css')}}">
+    <link rel="stylesheet"
+        href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet"
+        href="{{url_for('.static', filename='css/business-frontpage.css')}}">
+{% endblock %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+(function () {
+    "use strict";
+    var SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    $(document).ready(function () {
+        $('.cart').on("click", function () {
+            var asin = $(this).attr('class').split(' ')[4];
+            $.ajax({
+                url: SCRIPT_ROOT + '/api' + '{{rule}}' + '/' + asin,
+                datatype: 'json',
+                success: function (data) {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        url: SCRIPT_ROOT + '/api/shopping',
+                        data: JSON.stringify({
+                            "asin": data.asin,
+                                "user": "{{user.email}}",
+                                "store": data.store,
+                                "product": data.product
+                        }),
+                        error: function () {
+                            alert("No Dice, Again!");
+                        },
+                        success: function (data) {
+                            alert("Added to Shopping Cart");
+                            console.log(data.product);
+                        },
+                        dataType: 'json'
+                    });
+                }
+            });
+        });
+   });
+   $('.remove').on('click', function() {
+                var id = $(this).attr('class').split(' ')[4];
+                $.ajax({
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                                        url: SCRIPT_ROOT + '/api/shopping/' + id,
+                    error: function() {
+                        alert("No Dice, Thrice!");
+                    },
+                    success: function() {
+                        location.reload();
+                        },
+                    dataType: 'json'
+                });
+            }); 
+}());
+</script>
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="index"> NedCow </a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li id="toysrus">
+                <a href="{{url_for('toysrus')}}">Toys R Us</a>
+            </li>
+            <li id="mattel">
+                <a href="{{url_for('mattel')}}">Mattel</a>
+            </li>
+            <li id="target">
+                <a href="{{url_for('target')}}">Target</a>
+            </li>
+            <li id="bestbuy">
+                <a href="{{url_for('bestbuy')}}">Bestbuy</a>
+            </li>
+            <li id="xsdepot">
+                <a href="{{url_for('xsdepot')}}">Xsdepot</a>
+	    </li>
+	    <li id="genco">
+	        <a href="{{url_for('genco')}}">Genco</a>
+	    </li>
+	    <li id="disney">
+		<a href="{{url_for('disney')}}">Disney</a>
+	    </li>
+	    <li id="kmart">
+		<a href="{{url_for('kmart')}}">Kmart</a>
+	    </li>
+	    <li id="cherylsdolls">
+		<a href="{{url_for('cherylsdolls')}}">Cherylsdolls</a>
+	    </li>
+	    <li id="americangirl">
+		<a href="{{url_for('americangirl')}}">Americangirl</a>
+	    </li>
+	    <li id="hasbro">
+		<a href="{{url_for('hasbro')}}">Hasbro</a>
+	    </li>
+	    <li id="lego">
+		<a href="{{url_for('lego')}}">Lego</a>
+	    </li>
+	    <li id="eedistribution">
+		<a href="{{url_for('eedistribution')}}">EED</a>
+	    </li>
+	    <li id="kristy">
+		<a href="{{url_for('kristy')}}">Kristy</a>
+	    </li>
+	    <li id="icc">
+		<a href="{{url_for('icc')}}">Icc</a>
+	    </li>
+	    <li id="plushzoo">
+		<a href="{{url_for('plushzoo')}}">Plushzoo</a>
+	    </li>
+	    <li id="walmart">
+		<a href="{{url_for('walmart')}}">Walmart</a>
+	    </li>
+	    <li id="bendon">
+		<a href="{{url_for('bendon')}}">Bendon</a>
+	    </li>
+	    <li id="lots">
+		<a href="{{url_for('lots')}}">Lots</a>
+	    </li>
+	    <li id="upc">
+		<a href="{{url_for('upc')}}">Upc</a>
+	    </li>
+            <li id="list">
+                <a href="{{url_for('shopping')}}">Shopping List</a>
+            </li>
+	    <li id="upload">
+		<a href="/uploads" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-upload"></span>Upload</a>
+	    </li>
+	    <li id="logout">
+	        <a href="/logout" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+	    </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

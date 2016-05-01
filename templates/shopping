@@ -1,0 +1,69 @@
+{% extends "/dasboot.html" %}
+
+{% block styles %}
+{{ super() }}
+    <link rel="stylesheet" 
+        href="{{url_for('.static', filename='mystyle.css')}}">
+    <link rel="stylesheet"
+        href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+{% endblock %}
+
+{% block content %}
+<div id="opt1" class="gradient-box-small">
+    <form method="post" class="form-horizontal" action="" id="opt1">
+        <label for="product-search">Sort by:</label>
+        <select id="product-search" name="sort" onchange="this.form.submit()">
+            <option value="empty">Price, Salesrank</option>
+            <option value="D-Profit">Profit (high to low)</option>
+            <option value="A-Profit">Profit (low to high)</option>
+            <option value="A-Salesrank">SalesRank (low to high)</option>
+            <option value="D-Salesrank">SalesRank (high to low)</option>
+            <option value="D-Margin"> Margin (high to low)</option>
+        </select>
+        <!--<input type="submit" name="go" value"GO" class="offleft"> --!>
+     </form>
+        <button id="opt2" name="email" value="geturdone"><a href="{{url_for('email')}}"> Email List</a> </button>
+</div>
+<p>
+<div class="container">
+    <div class="row">
+        {% for search in searches %}
+        {% if search.user == user.email %}
+        <div class="col-xs-18 col-sm-6 col-md-3" id="{{search.asin}}">
+            <ul id="product-results">
+            <li class="thumbnail">
+                <pre><span style="background-color:red;"><h6>{{search.store}}</h6><span></pre>
+                <img src="{{search.product['image'].split('_')[0]+"_SL1500_.jpg"}}">
+                <ul class="product-name">
+                    <h6>
+                    {{search.product['title']|title()|truncate(50, True)}}
+                    </h6>
+                    <li class="purchaseprice">Purchase Price: <a class="nohover" href="{{search.product['pagelink']}}" target="_blank">${{search.product['purchaseprice']}}</li></a>
+                    <li class="salesprice">Sales Price: <a class="nohover" href="http://www.amazon.com/dp/{{search['asin']}}/" target="_blank">${{search.product['amazon_sales_price']}}</li></a>
+                    <li class="profit">Profit: ${{search.product['profit']}}</li>
+                    <li class="margin">Margin: {{search.product['margin']}}%</li>
+                    <li class="rank">Rank: {{search.product['salesrank']}}</li>
+                    <p>
+                    <li>
+                    <button id="remove" class="remove btn btn-xs btn-danger {{search.id}}"><span class="glyphicon glyphicon-remove"></span> Remove from List</button>
+                    </li>
+                    {% if search.product['shipping'] == "yes" or search.product['storepick'] == "yes" %}
+                    <li>
+                    <a href="{{search.product['pagelink']}}" target="_blank" class"btn btn-xs btn-danger buybutton active">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>Available</a>
+                    </li>
+                    {% endif %}
+                </ul>        
+            </li>
+            </ul>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div> 
+</div>
+{% endblock %}
+
+{% block footer %}
+{% if searches.has_prev %}<a href="{{ url_for('target', page = searches.prev_num) }}"><< Newer Produts</a>{% else %}<< Newer Products{% endif %} |
+{% if searches.has_next %}<a href="{{ url_for('target', page = searches.next_num) }}">Older Products >></a>{% else %}Older Products >>{% endif %}
+{% endblock %}

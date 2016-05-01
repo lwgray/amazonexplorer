@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <body>
+        <table border = 1>
+            <thead>
+                <td>Order ID</td>
+                <td>Date</td>
+                <td>SKU</td>
+                <td>Transaction Type</td>
+                <td>Details</td>
+                <td>Amount</td>
+                <td>Quantity</td>
+                <td>Title</td>
+            </thead>
+            {% for row in rows %}
+                <tr>
+                    <td>{{row["id"]}}</td>
+                    <td>{{row["date"]}}</td>
+                    <td>{{row["sku"]}}</td>
+                    <td>{{row["trans"]}}</td>
+                    <td>{{row["detail"]}}</td>
+                    <td>{{row["amount"]}}</td>
+                    <td>{{row["quantity"]}}</td>
+                    <td>{{row["title"]}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

@@ -160,21 +160,22 @@ def get_refund_data(input_file):
         reader.next()
         reader.next()
         reader.next()
-        data = dict([(line[1], line) for line in reader])
+        data = dict([(line[1], line) for line in reader if line[4] == 'Product charges'])
     return data
 
 
 def find_problems(returned, refunded, reimbursed):
+    data = []
     for key, value in refunded.iteritems():
         if key not in returned:
             if key not in reimbursed:
                 date = datetime.strptime(value[0], '%b %d, %Y')
                 if check_days(date, 18, 'months'):
-                    print key, value
-    return
+                    data.append((key, value))
+    return data
 
 
-def find_non_reimbursed_damaged_goods_before_deadline():
+def find_non_returned():
     """
 
     :return: 
@@ -185,8 +186,8 @@ def find_non_reimbursed_damaged_goods_before_deadline():
                                                   'refunds.txt'))
     reimbursed_goods = get_reimbursement_report(os.path.join(
         'data', 'reimbursements.txt'))
-    find_problems(returned_goods, refunded_goods, reimbursed_goods)
-    return
+    data = find_problems(returned_goods, refunded_goods, reimbursed_goods)
+    return data
 
 
 def find_non_reimbursed_damaged_goods():
@@ -242,4 +243,4 @@ if __name__ == '__main__':
         if sys.argv[1] == 'damaged':
             sys.exit(find_non_reimbursed_damaged_goods())
     except IndexError:
-        sys.exit(find_non_reimbursed_damaged_goods_before_deadline())
+        sys.exit(find_non_returned())
