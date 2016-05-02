@@ -1,29 +1,77 @@
 <!doctype html>
 <html>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+        </script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+        </script>
+        <style>
+            .example {
+                background-color: #f1f1g1;
+                padding: 0.01em 16px;
+                margin: 20px 0;
+                box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)!important;
+                box-sizing: border-box;
+            }
+            h3 {
+                font-weight: 400;
+                margin: 10px 0;
+                line-height: 1.5;
+            }
+            .padding {
+                padding: 8px 16px!important;
+            }
+            .white {
+                color: #000!important;
+                background-color: #fff!important;
+            }
+            div {
+                display: block;
+            }
+            table {
+                border-collapse: collapse;
+                border-spaceing: 0;
+                display: table;
+                background-color: transparent;
+            }
+            body {
+                font-family: Verdana,sans-serif;
+                font-size: 15px
+                line-height: 1.5;
+            }
+        </style>
+    </head>
     <body>
-        <table border = 1>
-            <thead>
-                <td>Order ID</td>
-                <td>Date</td>
-                <td>SKU</td>
-                <td>Transaction Type</td>
-                <td>Details</td>
-                <td>Amount</td>
-                <td>Quantity</td>
-                <td>Title</td>
-            </thead>
-            {% for row in rows %}
-                <tr>
-                    <td>{{row["id"]}}</td>
-                    <td>{{row["date"]}}</td>
-                    <td>{{row["sku"]}}</td>
-                    <td>{{row["trans"]}}</td>
-                    <td>{{row["detail"]}}</td>
-                    <td>{{row["amount"]}}</td>
-                    <td>{{row["quantity"]}}</td>
-                    <td>{{row["title"]}}</td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div class="container example">
+            <h3> Products Refunded but not Returned </h3>
+            <table class="table table-bordered">
+                <thead>
+                    <td>Order ID</td>
+                    <td>Date</td>
+                    <td>Transaction Type</td>
+                    <td>Payment Type</td>
+                    <td>Amount</td>
+                    <td>Quantity</td>
+                    <td>Title</td>
+                </thead>
+                {% for row in rows %}
+                    <tr>
+                        <td>{{row["id"]}}</td>
+                        <td>{{row["date"]}}</td>
+                        <td>{{row["trans"]}}</td>
+                        <td>{{row["paytype"]}}</td>
+                        <td>{{row["amount"]}}</td>
+                        <td>{{row["quantity"]}}</td>
+                        <td>{{row["title"]}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        <div>
     </body>
 </html>
