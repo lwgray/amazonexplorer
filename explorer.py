@@ -190,7 +190,7 @@ def find_non_returned():
     return data
 
 
-def find_non_reimbursed_damaged_goods():
+def damaged_goods():
     ''' Find Damaged Goods that were not reimbursed
     :rtype: object
     '''
@@ -200,9 +200,7 @@ def find_non_reimbursed_damaged_goods():
         'data', 'reimbursements.txt'))
     damaged_goods = find_damaged_goods(returned_goods)
     verified = verify_reimbursement(damaged_goods, reimbursed_goods)
-    # write_report(verified)
-    print_verified(verified)
-    return
+    return verified
 
 
 def print_verified(verified):
@@ -241,6 +239,6 @@ def main():
 if __name__ == '__main__':
     try:
         if sys.argv[1] == 'damaged':
-            sys.exit(find_non_reimbursed_damaged_goods())
+            sys.exit(damaged_goods())
     except IndexError:
         sys.exit(find_non_returned())

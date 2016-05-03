@@ -13,41 +13,32 @@
     <body>
         <div class="container">
              <ul class="nav nav-tabs">
-               <li class="active"><a href="/index">Refunded</a></li>
-               <li><a href="/damaged">Damaged</a></li>
+               <li><a href="/index">Refunded</a></li>
+               <li class="active"><a href="/damaged">Damaged</a></li>
              </ul>
              <div class="page-header">
-                <h1>Products Refunded but Not Returned</h1>      
+                <h1>Products Damaged but Not Reimbursed</h1>      
              </div>
              <div class="jumbotron">
                 <table class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <td>Order ID</td>
                         <td>Date</td>
-                        <td>Transaction Type</td>
-                        <td>Payment Type</td>
-                        <td>Amount</td>
-                        <td>Quantity</td>
-                        <td>Title</td>
+                        <td>SKU</td>
+                        <td>Details</td>
+                        <td>reason</td>
                     </thead>
                     {% for row in rows %}
                         <tr>
                             <td>{{row["id"]}}</td>
                             <td>{{row["date"]}}</td>
-                            <td>{{row["trans"]}}</td>
-                            <td>{{row["paytype"]}}</td>
-                            <td>{{row["amount"]}}</td>
-                            <td>{{row["quantity"]}}</td>
-                            <td>{{row["title"]}}</td>
+                            <td>{{row["sku"]}}</td>
+                            <td>{{row["details"]}}</td>
+                            <td>{{row["reason"]}}</td>
                         </tr>
                     {% endfor %}
                 </table>
              </div>
         </div>
-        <script type:"text/javascript">
-            $(document).ready(function() {
-                $('#example').DataTable();
-            });
-        </script>
     </body>
 </html>
